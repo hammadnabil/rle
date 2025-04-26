@@ -11,6 +11,9 @@ class Izin extends Model
 
     protected $table = 'izin';
 
+    protected $primaryKey = 'izin_id';
+
+
     protected $fillable = [
         'pegawai_id',
         'atasan_id',

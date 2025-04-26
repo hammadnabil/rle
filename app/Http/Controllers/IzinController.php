@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Izin;
 use App\Models\Atasan;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Notifikasi;
+use App\Mail\StatusIzinMail;
+use Illuminate\Support\Facades\Mail;
 
 class IzinController extends Controller
 {
@@ -51,22 +52,18 @@ class IzinController extends Controller
 
    
     public function setujuiTolak(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|in:disetujui,ditolak',
-        ]);
+{
+    $request->validate([
+        'status' => 'required|in:disetujui,ditolak',
+    ]);
 
-        $izin = Izin::findOrFail($id);
-        $izin->status = $request->status; // Mengubah status menjadi disetujui atau ditolak
-        $izin->save();
+    $izin = Izin::findOrFail($id);
+    $izin->status = $request->status;
+    $izin->save();
 
-        // Kirim notifikasi ke pegawai
-        Notifikasi::create([
-            'izin_id' => $izin->izin_id,
-            'waktu_kirim' => now(),
-            'status_kirim' => 'berhasil', // atau 'gagal' jika ada masalah
-        ]);
+    // Kirim email ke pegawai
+    Mail::to($izin->pegawai->email)->send(new StatusIzinMail($izin));
 
-        return redirect()->route('atasan.pengajuan')->with('success', 'Pengajuan izin berhasil diproses.');
-    }
+    return redirect()->route('atasan.pengajuan')->with('success', 'Pengajuan izin berhasil diproses dan email telah dikirim.');
+}
 }

@@ -16,6 +16,13 @@
             </a>
         </div>
 
+        <div class="mt-4">
+            <a href="{{ route('atasan.histori') }}" class="inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-green-800">
+                Lihat Histori Izin
+            </a>
+        </div>
+        
+
         <form action="{{ route('logout') }}" method="POST" class="mt-6">
             @csrf
             <button type="submit" class="text-red-600 hover:text-red-800 text-lg font-semibold transition duration-300 ease-in-out">

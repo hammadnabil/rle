@@ -32,4 +32,11 @@ class Izin extends Model
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
+
+    protected $casts = [
+        'tanggal_pengajuan' => 'datetime',  
+        'tanggal_izin' => 'datetime',
+    ];
+
+    
 }

@@ -11,6 +11,7 @@
                 Ajukan Izin
             </a>
         </div>
+        
 
         <form action="{{ route('logout') }}" method="POST" class="mt-8">
             @csrf

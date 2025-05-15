@@ -19,33 +19,37 @@
                     <div id="list-pegawai" class="absolute w-full bg-white border border-gray-300 rounded-b shadow hidden z-10 max-h-60 overflow-auto mt-1"></div>
                 </div>
         
-                <select name="bulan" class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm">
-                    <option value="">Pilih Bulan</option>
-                    @foreach ([1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 
-                               7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'] as $num => $name)
-                        <option value="{{ $num }}" {{ request('bulan') == $num ? 'selected' : '' }}>
-                            {{ $name }}
-                        </option>
-                    @endforeach
-                </select>
-        
-                <select name="tahun" class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm">
-                    <option value="">Pilih Tahun</option>
-                    @for ($year = now()->year; $year >= now()->year - 5; $year--)
-                        <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
-                            {{ $year }}
-                        </option>
-                    @endfor
-                </select>
-        
-                <select name="minggu" class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm">
-                    <option value="">Pilih Minggu</option>
-                    @for ($i = 1; $i <= 5; $i++)
-                        <option value="{{ $i }}" {{ request('minggu') == $i ? 'selected' : '' }}>
-                            Minggu ke-{{ $i }}
-                        </option>
-                    @endfor
-                </select>
+                <select name="tahun" id="tahun-select"
+                class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm">
+                <option value="">Pilih Tahun</option>
+                @for ($year = now()->year; $year >= now()->year - 5; $year--)
+                    <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
+                        {{ $year }}
+                    </option>
+                @endfor
+            </select>
+            
+            <select name="bulan" id="bulan-select"
+                class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm" disabled>
+                <option value="">Pilih Bulan</option>
+                @foreach ([1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 
+                           7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'] as $num => $name)
+                    <option value="{{ $num }}" {{ request('bulan') == $num ? 'selected' : '' }}>
+                        {{ $name }}
+                    </option>
+                @endforeach
+            </select>
+            
+            <select name="minggu" id="minggu-select"
+                class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm" disabled>
+                <option value="">Pilih Minggu</option>
+                @for ($i = 1; $i <= 4; $i++)
+                    <option value="{{ $i }}" {{ request('minggu') == $i ? 'selected' : '' }}>
+                        Minggu ke-{{ $i }}
+                    </option>
+                @endfor
+            </select>
+            
         
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 px-4 rounded-lg shadow-md">
                     Cari
@@ -109,6 +113,34 @@
 
 <script>
 $(document).ready(function() {
+
+
+function updateFilterState() {
+    let tahunDipilih = $('#tahun-select').val();
+    let bulanDipilih = $('#bulan-select').val();
+
+    if (tahunDipilih) {
+        $('#bulan-select').removeAttr('disabled');
+    } else {
+        $('#bulan-select').val('').attr('disabled', true);
+        $('#minggu-select').val('').attr('disabled', true);
+    }
+
+    if (tahunDipilih && bulanDipilih) {
+        $('#minggu-select').removeAttr('disabled');
+    } else {
+        $('#minggu-select').val('').attr('disabled', true);
+    }
+}
+
+
+updateFilterState();
+
+
+$('#tahun-select, #bulan-select').on('change', function () {
+    updateFilterState();
+});
+
     $('#nama-pegawai').on('keyup', function() {
         let query = $(this).val();
         if (query.length >= 1) {

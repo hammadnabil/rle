@@ -3,10 +3,11 @@
 @section('content')
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-green-300 to-green-500 py-12 px-4 animate-gradient-x">
     <div class="bg-white shadow-lg rounded-xl w-full max-w-2xl p-8 text-center transform transition duration-500 hover:scale-105 hover:shadow-xl">
+        <!-- Menampilkan Nama User setelah login -->
         <h1 class="text-2xl font-bold text-gray-800 transition duration-500 ease-in-out transform hover:text-green-600">
-            Halo, {{ Auth::guard('atasan')->user()->nama }}
+            Halo, {{ Auth::user()->nama }} <!-- Menggunakan Auth::user() -->
         </h1>
-        <p class="mt-2 text-gray-600">Anda login sebagai Atasan.</p>
+        <p class="mt-2 text-gray-600">Anda login sebagai {{ Auth::user()->jabatan }}.</p> <!-- Menampilkan jabatan berdasarkan data user -->
 
         <p class="mt-4 text-gray-500">Silakan kelola pengajuan izin dari pegawai.</p>
 
@@ -23,6 +24,7 @@
         </div>
         
 
+        <!-- Form logout -->
         <form action="{{ route('logout') }}" method="POST" class="mt-6">
             @csrf
             <button type="submit" class="text-red-600 hover:text-red-800 text-lg font-semibold transition duration-300 ease-in-out">

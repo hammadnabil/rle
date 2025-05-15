@@ -4,18 +4,77 @@
     <meta charset="utf-8">
     <title>Histori Pengajuan Izin</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .title { font-size: 18px; font-weight: bold; }
-        .subtitle { font-size: 14px; margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
-        th { background-color: #4CAF50; color: white; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        .footer { margin-top: 20px; text-align: right; font-size: 10px; }
-        .disetujui { color: green; }
-        .ditolak { color: red; }
-        .menunggu { color: orange; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .subtitle {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            font-size: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 10px;
+        }
+        .disetujui {
+            color: green;
+        }
+        .ditolak {
+            color: red;
+        }
+        .menunggu {
+            color: orange;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 10mm;
+                font-size: 12px;
+            }
+            .title {
+                font-size: 18px;
+            }
+            .subtitle {
+                font-size: 12px;
+            }
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                text-align: right;
+                padding: 5px 20px;
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -57,6 +116,8 @@
         </tbody>
     </table>
 
-  
+    <div class="footer">
+        Dicetak pada: {{ \Carbon\Carbon::now()->format('d-m-Y H:i') }}
+    </div>
 </body>
 </html>

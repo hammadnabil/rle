@@ -12,12 +12,23 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold text-blue-600">RLE</h1>
 
-            @auth('pegawai')
-                <span class="text-sm text-gray-600">Login sebagai Pegawai</span>
-            @endauth
-            @auth('atasan')
-                <span class="text-sm text-gray-600">Login sebagai Atasan</span>
-            @endauth
+            <div class="flex items-center space-x-4">
+                @auth
+                    @if (Auth::user()->jabatan === 'pegawai')
+                        <span class="text-sm text-gray-600">Login sebagai Pegawai</span>
+                    @elseif (Auth::user()->jabatan === 'atasan')
+                        <span class="text-sm text-gray-600">Login sebagai Atasan</span>
+                    @endif
+                    
+                    <!-- Tombol Logout -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition duration-200">
+                            Logout
+                        </button>
+                    </form>
+                @endauth
+            </div>
         </div>
     </header>
 

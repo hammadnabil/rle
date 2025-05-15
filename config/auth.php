@@ -16,7 +16,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
+        'guard' => 'web',
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
@@ -38,17 +38,6 @@ return [
     */
 
     'guards' => [
-
-        'pegawai'=>[
-            'driver' => 'session',
-            'provider' => 'pegawai',
-        ],
-
-        'atasan'=>[
-            'driver' => 'session',
-            'provider' => 'atasan',
-        ],
-
 
         'web' => [
             'driver' => 'session',
@@ -75,16 +64,7 @@ return [
 
     'providers' => [
 
-        'pegawai' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Pegawai::class,
-        ],
-
-        'atasan' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Atasan::class,
-        ],
-
+       
 
         'users' => [
             'driver' => 'eloquent',

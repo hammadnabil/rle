@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Izin extends Model
 {
     use HasFactory;
 
     protected $table = 'izin';
-
     protected $primaryKey = 'izin_id';
-
 
     protected $fillable = [
         'pegawai_id',
@@ -23,20 +22,18 @@ class Izin extends Model
         'status',
     ];
 
-    public function atasan()
-    {
-        return $this->belongsTo(Atasan::class, 'atasan_id');
-    }
-
-    public function pegawai()
-    {
-        return $this->belongsTo(Pegawai::class, 'pegawai_id');
-    }
-
     protected $casts = [
-        'tanggal_pengajuan' => 'datetime',  
+        'tanggal_pengajuan' => 'datetime',
         'tanggal_izin' => 'datetime',
     ];
 
-    
+    public function pegawai()
+    {
+        return $this->belongsTo(User::class, 'pegawai_id');
+    }
+
+    public function atasan()
+    {
+        return $this->belongsTo(User::class, 'atasan_id');
+    }
 }

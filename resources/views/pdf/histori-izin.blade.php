@@ -87,22 +87,31 @@
 
     <table>
         <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Pegawai</th>
-                <th>Tanggal Pengajuan</th>
-                <th>Tanggal Izin</th>
-                <th>Alasan</th>
-                <th>Status</th>
+            
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Pegawai</th>
+                        <th>Tanggal Pengajuan</th>
+                        <th>Tanggal Izin</th>
+                        <th>Jam Mulai</th> 
+                        <th>Jam Selesai</th> 
+                        <th>Alasan</th>
+                        <th>Status</th>
+                
+                </thead>
+                
+
             </tr>
         </thead>
         <tbody>
             @forelse($histori as $index => $izin)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $izin->pegawai->nama ?? 'N/A' }}</td>
+                    <td>{{ $izin->pegawai->name ?? 'N/A' }}</td>
                     <td>{{ $izin->tanggal_pengajuan->format('d-m-Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($izin->tanggal_izin)->format('d-m-Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($izin->jam_mulai)->format('H:i') }}</td> <!-- Tambahan -->
+                    <td>{{ \Carbon\Carbon::parse($izin->jam_selesai)->format('H:i') }}</td> <!-- Tambahan -->
                     <td>{{ $izin->alasan }}</td>
                     <td class="{{ strtolower($izin->status) }}">
                         {{ ucfirst($izin->status) }}

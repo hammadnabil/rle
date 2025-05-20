@@ -38,4 +38,4 @@
 
 
 
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::POST('/logout', [AuthController::class, 'logout'])->name('logout');

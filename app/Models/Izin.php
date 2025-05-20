@@ -20,11 +20,13 @@ class Izin extends Model
         'tanggal_izin',
         'alasan',
         'status',
+        'jam_mulai',
+        'jam_selesai',
     ];
 
     protected $casts = [
         'tanggal_pengajuan' => 'datetime',
-        'tanggal_izin' => 'datetime',
+        'tanggal_izin' => 'date',
     ];
 
     public function pegawai()

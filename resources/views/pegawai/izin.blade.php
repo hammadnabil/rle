@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.pegawai')
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 px-4 py-12 animate-fade-in">
@@ -20,7 +20,7 @@
                     <option value="">-- Pilih Atasan --</option>
                     @forelse($atasans as $atasan)
                         <option value="{{ $atasan->id }}">
-                            {{ $atasan->name }} - {{ $atasan->jabatan }}
+                            {{ $atasan->name }}
                         </option>
                     @empty
                         <option value="" disabled>Tidak ada atasan tersedia</option>
@@ -38,6 +38,23 @@
                     <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                 @enderror
             </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Jam Mulai</label>
+                    <input type="time" name="jam_mulai" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                    @error('jam_mulai')
+                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Jam Selesai</label>
+                    <input type="time" name="jam_selesai" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                    @error('jam_selesai')
+                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+            
 
             <div>
                 <label class="block mb-1 text-sm font-medium text-gray-700">Alasan</label>

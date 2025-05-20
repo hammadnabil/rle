@@ -31,6 +31,8 @@ class IzinController extends Controller
             'atasan_id' => 'required|exists:users,id',
             'tanggal_izin' => 'required|date|after_or_equal:today',
             'alasan' => 'required|string|max:255',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
         ]);
 
         Izin::create([
@@ -38,9 +40,12 @@ class IzinController extends Controller
             'atasan_id' => $request->atasan_id,
             'tanggal_pengajuan' => now(),
             'tanggal_izin' => $request->tanggal_izin,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
             'alasan' => $request->alasan,
             'status' => 'Menunggu',
         ]);
+        
 
         return redirect()->route('izin.index')->with('success', 'Pengajuan izin berhasil dikirim.');
     }
@@ -70,9 +75,9 @@ class IzinController extends Controller
     {
         $query = Izin::query();
 
-        if ($request->filled('nama')) {
+        if ($request->filled('name')) {
             $query->whereHas('pegawai', function ($q) use ($request) {
-                $q->where('nama', 'like', '%' . $request->nama . '%');
+                $q->where('name', 'like', '%' . $request->name . '%');
             });
         }
 
@@ -99,19 +104,19 @@ class IzinController extends Controller
     }
 
     public function loadPegawai(Request $request)
-    {
-        if ($request->has('q')) {
-            $search = $request->q;
-            $pegawai = User::select('id', 'nama as text')
-                ->where('jabatan', 'pegawai')
-                ->where('nama', 'like', '%' . $search . '%')
-                ->limit(10)
-                ->get();
+{
+    if ($request->has('q')) {
+        $search = $request->q;
+        $pegawai = User::select('id', 'name as text')
+            ->where('jabatan', 'pegawai')
+            ->where('name', 'like', '%' . $search . '%')
+            ->limit(10)
+            ->get();
 
-            return response()->json($pegawai);
-        }
-        return response()->json([]);
+        return response()->json($pegawai);
     }
+    return response()->json([]);
+}
 
     public function exportPDF(Request $request)
     {

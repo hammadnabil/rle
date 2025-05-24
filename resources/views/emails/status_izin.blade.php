@@ -7,7 +7,7 @@
 <body>
     <h2>Halo {{ $izin->pegawai->nama }},</h2>
 
-    <p>Pengajuan izin Anda pada tanggal <strong>{{ $izin->tanggal_izin }}</strong> telah <strong>{{ $izin->status }}</strong>.</p>
+    <p>Pengajuan izin Anda pada tanggal <strong>{{ $izin->tanggal_izin }}</strong>  telah <strong>{{ $izin->status }}</strong></p>
 
     <p>Alasan: {{ $izin->alasan }}</p>
 

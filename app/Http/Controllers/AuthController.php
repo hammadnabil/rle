@@ -7,36 +7,37 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        $role = $request->input('role');
+    // AuthController.php
+public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if ($role === 'pegawai') {
-            if (Auth::guard('pegawai')->attempt($credentials)) {
-                return redirect()->intended('/pegawai/dashboard');
-            }
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        
+        // Redirect berdasarkan jabatan
+        if (Auth::user()->jabatan === 'atasan') {
+            return redirect()->route('atasan.dashboard');
+        } else {
+            return redirect()->route('pegawai.dashboard');
         }
-
-        if ($role === 'atasan') {
-            if (Auth::guard('atasan')->attempt($credentials)) {
-                return redirect()->intended('/atasan/dashboard');
-            }
-        }
-
-        return back()->withErrors(['login' => 'Email atau password salah untuk role yang dipilih.']);
     }
+
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ]);
+}
+    
 
     public function logout(Request $request)
-{
-    if (Auth::guard('pegawai')->check()) {
-        Auth::guard('pegawai')->logout();
-    } elseif (Auth::guard('atasan')->check()) {
-        Auth::guard('atasan')->logout();
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
-
-    return redirect()->route('login');
 }
-
-}
-

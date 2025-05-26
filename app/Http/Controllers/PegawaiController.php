@@ -13,8 +13,4 @@ class PegawaiController extends Controller
     return view('pegawai.profil', compact('user'));
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8a2b179eec3fa9275020975fde913fad522605c5
 }

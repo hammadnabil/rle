@@ -38,7 +38,7 @@
         <select name="minggu" id="minggu-select"
             class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm" disabled>
             <option value="">Pilih Minggu</option>
-            @for ($i = 1; $i <= 4; $i++)
+            @for ($i = 1; $i <= 5; $i++)
                 <option value="{{ $i }}" {{ request('minggu') == $i ? 'selected' : '' }}>
                     Minggu ke-{{ $i }}
                 </option>

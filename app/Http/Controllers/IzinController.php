@@ -18,40 +18,50 @@ use Illuminate\Support\Facades\Log;
 class IzinController extends Controller
 {
 
-    public function index()
-    {
-        $atasans = User::where('jabatan', 'like', '%atasan%')->get();
-        return view('pegawai.izin', compact('atasans'));
+   public function index()
+{
+    $user = Auth::user();
+
+    if (!$user || $user->jabatan === 'Tata Usaha') {
+        abort(403, 'Akses hanya untuk pegawai.');
     }
+
+    return view('pegawai.izin');
+}
+
+
 
     public function store(Request $request)
-    {
-        $pegawaiId = Auth::id();
-        if (!$pegawaiId) {
-            return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
-        }
+{
+    $pegawaiId = Auth::id();
+    $user = Auth::user();
 
-        $request->validate([
-            'atasan_id' => 'required|exists:users,id',
-            'tanggal_izin' => 'required|date|after_or_equal:today',
-            'alasan' => 'required|string|max:255',
-            'jam_mulai' => 'required|date_format:H:i',
-            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
-        ]);
-
-        $izin = Izin::create([
-            'pegawai_id' => $pegawaiId,
-            'atasan_id' => $request->atasan_id,
-            'tanggal_pengajuan' => now(),
-            'tanggal_izin' => $request->tanggal_izin,
-            'jam_mulai' => $request->jam_mulai,
-            'jam_selesai' => $request->jam_selesai,
-            'alasan' => $request->alasan,
-            'status' => 'Menunggu',
-        ]);
-
-        return redirect()->route('izin.index')->with('success', 'Pengajuan izin berhasil dikirim.');
+  
+    if (!$pegawaiId || $user->jabatan === 'Tata Usaha') {
+        return redirect()->route('login')->with('error', 'Tata usaha tidak diperbolehkan mengajukan izin.');
     }
+
+    $request->validate([
+        'tanggal_izin' => 'required|date|after_or_equal:today',
+        'alasan' => 'required|string|max:255',
+        'jam_mulai' => 'required|date_format:H:i',
+        'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+    ]);
+
+    Izin::create([
+        'pegawai_id' => $pegawaiId,
+        'tanggal_pengajuan' => now(),
+        'tanggal_izin' => $request->tanggal_izin,
+        'jam_mulai' => $request->jam_mulai,
+        'jam_selesai' => $request->jam_selesai,
+        'alasan' => $request->alasan,
+        'status' => 'Menunggu',
+    ]);
+
+    return redirect()->route('izin.index')->with('success', 'Pengajuan izin berhasil dikirim.');
+}
+
+
 
     public function testSendWhatsAppMessage($phone, $message)
 {

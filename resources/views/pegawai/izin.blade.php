@@ -14,22 +14,7 @@
         <form action="{{ route('izin.store') }}" method="POST" class="space-y-5">
             @csrf
 
-            <div>
-                <label class="block mb-1 text-sm font-medium text-gray-700">Pilih Atasan</label>
-                <select name="atasan_id" required class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">-- Pilih Atasan --</option>
-                    @forelse($atasans as $atasan)
-                        <option value="{{ $atasan->id }}">
-                            {{ $atasan->name }}
-                        </option>
-                    @empty
-                        <option value="" disabled>Tidak ada atasan tersedia</option>
-                    @endforelse
-                </select>
-                @error('atasan_id')
-                    <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+            
 
             <div>
                 <label class="block mb-1 text-sm font-medium text-gray-700">Tanggal Izin</label>

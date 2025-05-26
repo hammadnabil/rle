@@ -45,6 +45,8 @@
             ->options([
                 'pegawai' => 'pegawai',
                 'atasan' => 'atasan',
+                'Tata Usaha' => 'Tata Usaha',
+                'Kepala Sekolah' => 'Kepala Sekolah',
             ])
             ->required()
             ->default('pegawai'),

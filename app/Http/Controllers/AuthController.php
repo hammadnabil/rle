@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // AuthController.php
+
 public function login(Request $request)
 {
     $credentials = $request->validate([
@@ -17,9 +17,8 @@ public function login(Request $request)
 
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
-        
-        // Redirect berdasarkan jabatan
-        if (Auth::user()->jabatan === 'atasan') {
+
+        if (Auth::user()->jabatan === 'Tata Usaha') {
             return redirect()->route('atasan.dashboard');
         } else {
             return redirect()->route('pegawai.dashboard');
@@ -30,7 +29,7 @@ public function login(Request $request)
         'email' => 'The provided credentials do not match our records.',
     ]);
 }
-    
+  
 
     public function logout(Request $request)
     {

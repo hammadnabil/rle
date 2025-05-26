@@ -15,7 +15,7 @@
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
-    Route::middleware(['auth', 'cek.jabatan:atasan'])->group(function () {
+    Route::middleware(['auth', 'cek.jabatan:Tata Usaha'])->group(function () {
         Route::get('/atasan/dashboard', function () {
             return view('atasan.dashboard');
         })->name('atasan.dashboard');

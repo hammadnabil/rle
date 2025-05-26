@@ -9,17 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up()
+    public function up()
 {
     Schema::table('izin', function (Blueprint $table) {
-        $table->text('alasan_ditolak')->nullable()->after('status');
+        $table->dropForeign(['atasan_id']);
+        $table->dropColumn('atasan_id');
     });
 }
 
 public function down()
 {
     Schema::table('izin', function (Blueprint $table) {
-        $table->dropColumn('alasan_ditolak');
+        $table->unsignedBigInteger('atasan_id')->nullable();
+        $table->foreign('atasan_id')->references('id')->on('users')->onDelete('set null');
     });
 }
 

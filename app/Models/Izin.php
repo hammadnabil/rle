@@ -15,7 +15,6 @@ class Izin extends Model
 
     protected $fillable = [
         'pegawai_id',
-        'atasan_id',
         'tanggal_pengajuan',
         'tanggal_izin',
         'alasan',
@@ -35,8 +34,5 @@ class Izin extends Model
         return $this->belongsTo(User::class, 'pegawai_id');
     }
 
-    public function atasan()
-    {
-        return $this->belongsTo(User::class, 'atasan_id');
-    }
+    
 }

@@ -16,12 +16,12 @@ return new class extends Migration
             $table->time('jam_selesai')->nullable();
         });
     }
-    
+
     public function down()
     {
         Schema::table('izin', function (Blueprint $table) {
             $table->dropColumn(['jam_mulai', 'jam_selesai']);
         });
     }
-    
+
 };

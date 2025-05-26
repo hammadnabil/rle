@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'wablas' => [
+        'base_url' => env('WABLAS_BASE_URL', 'https://texas.wablas.com/'),
+        'token' => env('XMadsHrbVhi2bSKcLHE4'),
+        'secret_key' => env('n9tF7DDJ'),
+    ],
+
+    'fonnte' => [
+        'token' => env('FONNTE_TOKEN'),
+    ],
+
+
+
 ];

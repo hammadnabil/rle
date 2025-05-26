@@ -22,6 +22,7 @@ class Izin extends Model
         'status',
         'jam_mulai',
         'jam_selesai',
+        'alasan_ditolak'
     ];
 
     protected $casts = [

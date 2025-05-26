@@ -81,7 +81,7 @@
     <div class="header">
         <div class="title">HISTORI PENGAJUAN IZIN</div>
         <div class="subtitle">
-            Filter: {{ $nama }} | {{ $bulan }} | {{ $minggu }} | {{ $tahun }}
+            Filter: {{ $name }} | {{ $bulan }} | {{ $minggu }} | {{ $tahun }}
         </div>
     </div>
 

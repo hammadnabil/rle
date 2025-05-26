@@ -9,7 +9,6 @@
 <div class="min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-500 py-12 px-4">
     <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-2xl p-6 md:p-10">
         <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Histori Pengajuan Izin</h1>
-
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
     <form method="GET" action="{{ route('atasan.histori') }}" class="w-full md:w-auto grid grid-cols-1 md:grid-cols-5 gap-4">
         <div class="relative">
@@ -17,7 +16,6 @@
                 class="w-full rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm" autocomplete="off" />
             <div id="list-pegawai" class="absolute z-50 w-full bg-white border border-gray-300 rounded-b shadow-lg hidden max-h-60 overflow-auto mt-1"></div>
         </div>
-        
         <select name="tahun" id="tahun-select"
             class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm">
             <option value="">Pilih Tahun</option>
@@ -27,7 +25,6 @@
                 </option>
             @endfor
         </select>
-        
         <select name="bulan" id="bulan-select"
             class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm" disabled>
             <option value="">Pilih Bulan</option>
@@ -38,7 +35,6 @@
                 </option>
             @endforeach
         </select>
-        
         <select name="minggu" id="minggu-select"
             class="rounded-lg border-2 border-gray-400 focus:ring-2 focus:ring-blue-300 px-4 py-2 text-sm" disabled>
             <option value="">Pilih Minggu</option>
@@ -48,14 +44,11 @@
                 </option>
             @endfor
         </select>
-        
         <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 px-4 rounded-lg shadow-md">
             Cari
         </button>
     </form>
 </div>
-        
-
         <div class="overflow-x-auto rounded-lg shadow">
             <table class="min-w-full bg-white">
                 <thead class="bg-green-600 text-white text-sm uppercase tracking-wider">
@@ -67,7 +60,7 @@
                         <th class="px-6 py-3 text-left">Jam Mulai</th>
                         <th class="px-6 py-3 text-left">Jam Selesai</th>
                         <th class="px-6 py-3 text-left">Status</th>
-                        
+                        <th class="px-6 py-3 text-left">Alasan Penolakan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +77,13 @@
                                 @elseif($izin->status == 'ditolak') text-red-600 
                                 @else text-yellow-500 @endif">
                                 {{ $izin->status }}
+                            </td>
+                            <td class="px-6 py-4">
+                        @if($izin->status == 'ditolak' && $izin->alasan_ditolak)
+                                {{ $izin->alasan_ditolak }}
+                            @else
+                                -
+                            @endif
                             </td>
                         </tr>
                     @empty

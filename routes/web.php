@@ -4,6 +4,8 @@
 
     use App\Http\Controllers\AuthController;
     use App\Http\Controllers\IzinController;
+    use App\Http\Controllers\PegawaiController;
+    use App\Http\Controllers\AtasanController;
 
 
     Route::get('/login', function () {
@@ -22,6 +24,11 @@
         Route::get('/atasan/histori', [IzinController::class, 'historiIzin'])->name('atasan.histori');
         Route::get('/cari-pegawai', [IzinController::class, 'loadPegawai'])->name('cari.pegawai');
         Route::get('/atasan/histori/export', [IzinController::class, 'exportPDF'])->name('atasan.histori.export');
+        Route::get('/atasan/user', [AtasanController::class, 'listUser'])->name('atasan.user.index');
+
+        Route::get('/atasan/users/autocomplete', [AtasanController::class, 'autocomplete'])->name('atasan.user.autocomplete');
+
+        Route::get('/atasan/user/{user}', [AtasanController::class, 'detailUser'])->name('atasan.user.detail');
         
     });
 
@@ -31,6 +38,8 @@
         })->name('pegawai.dashboard');
         Route::get('/pegawai/izin', [IzinController::class, 'index'])->name('izin.index'); // ← tambahkan ini
         Route::post('/pegawai/izin', [IzinController::class, 'store'])->name('izin.store');
+          Route::get('/pegawai/histori-izin', [IzinController::class, 'historiPegawai'])->name('pegawai.histori-izin');
+          Route::get('/pegawai/profil', [PegawaiController::class, 'profil'])->name('pegawai.profil');
     });
 
 
@@ -38,4 +47,6 @@
 
 
 
-    Route::POST('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+

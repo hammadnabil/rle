@@ -22,6 +22,10 @@ class User extends Authenticatable
         'email',
         'password',
         'jabatan',
+        'no_wa',
+        'umur', 
+        'tanggal_bergabung', 
+        'gender'
     ];
 
     /**
@@ -46,6 +50,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+   
 
     
 }

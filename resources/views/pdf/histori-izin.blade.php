@@ -81,25 +81,25 @@
     <div class="header">
         <div class="title">HISTORI PENGAJUAN IZIN</div>
         <div class="subtitle">
-            Filter: {{ $nama }} | {{ $bulan }} | {{ $minggu }} | {{ $tahun }}
+            Filter: {{ $name }} | {{ $bulan }} | {{ $minggu }} | {{ $tahun }}
         </div>
     </div>
 
     <table>
         <thead>
-            
+
                     <tr>
                         <th>No</th>
                         <th>Nama Pegawai</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Tanggal Izin</th>
-                        <th>Jam Mulai</th> 
-                        <th>Jam Selesai</th> 
+                        <th>Jam Mulai</th>
+                        <th>Jam Selesai</th>
                         <th>Alasan</th>
                         <th>Status</th>
-                
+
                 </thead>
-                
+
 
             </tr>
         </thead>

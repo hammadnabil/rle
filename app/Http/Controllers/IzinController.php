@@ -94,10 +94,10 @@ class IzinController extends Controller
        
         $statusText = $request->status === 'disetujui' ? 'DISETUJUI' : 'DITOLAK';
         $messageContent = "Halo {name},\n\nPengajuan izin Anda pada tanggal {$izin->tanggal_izin->format('d-m-Y')} " .
-            "jam {$izin->jam_mulai} - {$izin->jam_selesai} dengan alasan  {$izin->alasan} telah {$statusText}.\n";
+            "jam {$izin->jam_mulai} - {$izin->jam_selesai} dengan alasan  *{$izin->alasan}* telah {$statusText}.\n";
 
         if ($request->status === 'ditolak') {
-            $messageContent .= "Alasan Penolakan: {$request->alasan_ditolak}\n";
+            $messageContent .= "Alasan Penolakan: *{$request->alasan_ditolak}*\n";
         }
         $messageContent .= "\nTerima kasih.";
 

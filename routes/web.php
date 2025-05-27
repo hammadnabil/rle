@@ -30,7 +30,7 @@
         Route::get('/atasan/users/autocomplete', [AtasanController::class, 'autocomplete'])->name('atasan.user.autocomplete');
 
         Route::get('/atasan/user/{user}', [AtasanController::class, 'detailUser'])->name('atasan.user.detail');
-        
+
     });
 
     Route::middleware(['auth'])->group(function () {

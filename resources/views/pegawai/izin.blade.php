@@ -6,58 +6,66 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Ajukan Izin</h2>
 
         @if (session('success'))
-            <div class="bg-green-100 text-green-700 p-4 rounded mb-6 text-sm">
+            <div class="bg-green-100 text-green-700 p-4 rounded text-sm text-center mb-6">
                 {{ session('success') }}
             </div>
-        @endif
 
-        <form action="{{ route('izin.store') }}" method="POST" class="space-y-5">
-            @csrf
-
-            
-
-            <div>
-                <label class="block mb-1 text-sm font-medium text-gray-700">Tanggal Izin</label>
-                <input type="date" name="tanggal_izin" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                @error('tanggal_izin')
-                    <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Jam Mulai</label>
-                    <input type="time" name="jam_mulai" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                    @error('jam_mulai')
-                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Jam Selesai</label>
-                    <input type="time" name="jam_selesai" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                    @error('jam_selesai')
-                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-            
-
-            <div>
-                <label class="block mb-1 text-sm font-medium text-gray-700">Alasan</label>
-                <textarea name="alasan" rows="3" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required></textarea>
-                @error('alasan')
-                    <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="flex justify-between items-center mt-6">
-                <a href="{{ route('pegawai.dashboard') }}" class="text-red-600 border border-red-500 px-4 py-2 rounded hover:bg-red-50 transition duration-200">
-                    Kembali
+            <div class="flex justify-center gap-4">
+             
+                <a href="{{ url()->current() }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
+                    Ajukan Izin Lagi
                 </a>
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-200">
-                    Kirim Pengajuan
-                </button>
+                <a href="{{ route('pegawai.dashboard') }}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition duration-200">
+                    Kembali ke Dashboard
+                </a>
             </div>
-        </form>
+        @else
+            <form action="{{ route('izin.store') }}" method="POST" class="space-y-5">
+                @csrf
+
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Tanggal Izin</label>
+                    <input type="date" name="tanggal_izin" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                    @error('tanggal_izin')
+                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-1 text-sm font-medium text-gray-700">Jam Mulai</label>
+                        <input type="time" name="jam_mulai" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('jam_mulai')
+                            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-sm font-medium text-gray-700">Jam Selesai</label>
+                        <input type="time" name="jam_selesai" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('jam_selesai')
+                            <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Alasan</label>
+                    <textarea name="alasan" rows="3" class="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                    @error('alasan')
+                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="flex justify-between items-center mt-6">
+                    <a href="{{ route('pegawai.dashboard') }}" class="text-red-600 border border-red-500 px-4 py-2 rounded hover:bg-red-50 transition duration-200">
+                        Kembali
+                    </a>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-200">
+                        Kirim Pengajuan
+                    </button>
+                </div>
+            </form>
+        @endif
     </div>
 </div>
 

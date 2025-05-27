@@ -10,7 +10,8 @@ class AtasanController extends Controller
 {
     public function listUser()
     {
-        $users = User::orderBy('name')->get();
+        $users = User::orderBy('name')->paginate(10);
+
         return view('atasan.user.index', compact('users'));
     }
 
@@ -27,7 +28,6 @@ class AtasanController extends Controller
         $users = User::select('id', 'name as text')
             ->where('name', 'like', '%' . $search . '%')
             ->orderBy('name')
-            ->limit(10)
             ->get();
 
         return response()->json($users);

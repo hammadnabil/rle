@@ -27,7 +27,7 @@
         Route::get('/atasan/user', [AtasanController::class, 'listUser'])->name('atasan.user.index');
         Route::get('/atasan/profil', [AtasanController::class, 'profil'])->name('atasan.profil');
 
-        Route::get('/atasan/users/autocomplete', [AtasanController::class, 'autocomplete'])->name('atasan.user.autocomplete');
+        Route::get('/autocomplete', [AtasanController::class, 'autocomplete'])->name('atasan.autocomplete');
 
         Route::get('/atasan/user/{user}', [AtasanController::class, 'detailUser'])->name('atasan.user.detail');
 

@@ -15,7 +15,7 @@
                 <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                     </svg>
                     <div>
                         <p class="font-bold">Perhatian</p>
@@ -31,11 +31,16 @@
             @endif
 
             <div id="offline-alert"
-                class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 text-sm">
+                 class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 text-sm">
                 Tidak ada koneksi internet. Silakan periksa koneksi Anda dan coba lagi.
             </div>
 
-            <div class="overflow-x-auto rounded-lg shadow">
+            @if($pengajuan->isEmpty())
+                <div class="text-center text-gray-600 text-lg py-16">
+                    Belum ada pengajuan izin.
+                </div>
+            @else
+                 <div class="overflow-x-auto rounded-lg shadow">
                 <table class="min-w-full bg-white text-sm">
                     <thead class="bg-blue-600 text-white uppercase tracking-wider">
                         <tr>
@@ -116,17 +121,18 @@
                     </tbody>
                 </table>
             </div>
+            @endif
 
             <div class="mt-8 text-center">
                 <a href="{{ route('atasan.dashboard') }}"
-                    class="inline-block bg-gray-600 text-white px-5 py-2 rounded hover:bg-gray-700 text-sm font-medium">
+                   class="inline-block bg-gray-600 text-white px-5 py-2 rounded hover:bg-gray-700 text-sm font-medium">
                     Kembali ke Dashboard
                 </a>
             </div>
         </div>
     </div>
 
-   <script>
+     <script>
 
     document.querySelectorAll('.status-select').forEach(select => {
     

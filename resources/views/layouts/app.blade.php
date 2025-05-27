@@ -29,6 +29,12 @@
         <nav class="mt-4">
             <ul class="space-y-2">
                 <li>
+                    <a href="{{ route('atasan.dashboard') }}"
+                       class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">
+                        Dashboard
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('atasan.pengajuan') }}"
                        class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">
                         Kelola Pengajuan Izin
@@ -41,16 +47,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('atasan.dashboard') }}"
-                       class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">
-                        Dashboard
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('atasan.user.index') }}"
                        class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">
                         List Pengguna
                     </a>
+                </li>
+                <li>
+                    <a href="{{ route('atasan.profil') }}" class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">Profil</a>
                 </li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">

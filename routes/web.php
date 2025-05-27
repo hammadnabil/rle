@@ -25,6 +25,7 @@
         Route::get('/cari-pegawai', [IzinController::class, 'loadPegawai'])->name('cari.pegawai');
         Route::get('/atasan/histori/export', [IzinController::class, 'exportPDF'])->name('atasan.histori.export');
         Route::get('/atasan/user', [AtasanController::class, 'listUser'])->name('atasan.user.index');
+        Route::get('/atasan/profil', [AtasanController::class, 'profil'])->name('atasan.profil');
 
         Route::get('/atasan/users/autocomplete', [AtasanController::class, 'autocomplete'])->name('atasan.user.autocomplete');
 

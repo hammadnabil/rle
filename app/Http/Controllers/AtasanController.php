@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class AtasanController extends Controller
@@ -33,6 +34,12 @@ class AtasanController extends Controller
     }
 
     return response()->json([]);
+}
+
+   public function profil()
+{
+    $user = Auth::user();
+    return view('atasan.profil', compact('user'));
 }
 
 

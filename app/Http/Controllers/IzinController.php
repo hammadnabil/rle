@@ -93,7 +93,7 @@ class IzinController extends Controller
 
        
         $statusText = $request->status === 'disetujui' ? 'DISETUJUI' : 'DITOLAK';
-        $messageContent = "Halo {name},\n\nPengajuan izin Anda pada tanggal {$izin->tanggal_izin} " .
+        $messageContent = "Halo {name},\n\nPengajuan izin Anda pada tanggal {$izin->tanggal_izin->format('d-m-Y')} " .
             "jam {$izin->jam_mulai} - {$izin->jam_selesai} dengan alasan  {$izin->alasan} telah {$statusText}.\n";
 
         if ($request->status === 'ditolak') {
@@ -229,7 +229,8 @@ class IzinController extends Controller
 
         $histori = $query->whereIn('status', ['disetujui', 'ditolak'])
             ->orderBy('tanggal_izin', 'desc')
-            ->get();
+            ->paginate(10)->withQueryString();
+
 
         return view('atasan.histori', compact('histori'));
     }

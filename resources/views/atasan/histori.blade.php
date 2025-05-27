@@ -49,58 +49,67 @@
         </button>
     </form>
 </div>
-        <div class="overflow-x-auto rounded-lg shadow">
-            <table class="min-w-full bg-white">
-                <thead class="bg-green-600 text-white text-sm uppercase tracking-wider">
-                    <tr>
-                        <th class="px-6 py-3 text-left">Nama Pegawai</th>
-                        <th class="px-6 py-3 text-left">Tanggal Pengajuan</th>
-                        <th class="px-6 py-3 text-left">Tanggal Izin</th>
-                        <th class="px-6 py-3 text-left">Alasan</th>
-                        <th class="px-6 py-3 text-left">Jam Mulai</th>
-                        <th class="px-6 py-3 text-left">Jam Selesai</th>
-                        <th class="px-6 py-3 text-left">Status</th>
-                        <th class="px-6 py-3 text-left">Alasan Penolakan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($histori as $izin)
-                        <tr class="hover:bg-blue-50 border-b">
-                            <td class="px-6 py-4">{{ $izin->pegawai->name }}</td>
-                            <td class="px-6 py-4">{{ $izin->tanggal_pengajuan->format('d-m-Y') }}</td>
-                            <td class="px-6 py-4">{{ $izin->tanggal_izin->format('d-m-Y') }}</td>
-                            <td class="px-6 py-4">{{ $izin->alasan }}</td>
-                            <td class="px-6 py-4">{{ $izin->jam_mulai }}</td>
-                            <td class="px-6 py-4">{{ $izin->jam_selesai }}</td>
-                            <td class="px-6 py-4 capitalize font-semibold 
-                                @if($izin->status == 'disetujui') text-green-600 
-                                @elseif($izin->status == 'ditolak') text-red-600 
-                                @else text-yellow-500 @endif">
-                                {{ $izin->status }}
-                            </td>
-                            <td class="px-6 py-4">
-                        @if($izin->status == 'ditolak' && $izin->alasan_ditolak)
+        @if ($histori->isEmpty())
+    <div class="text-center text-gray-600 text-lg font-medium py-10">
+        Tidak ada histori izin.
+    </div>
+@else
+    <div class="overflow-x-auto rounded-lg shadow">
+        <table class="min-w-full bg-white">
+            <thead class="bg-green-600 text-white text-sm uppercase tracking-wider">
+                <tr>
+                    <th class="px-6 py-3 text-left">Nama Pegawai</th>
+                    <th class="px-6 py-3 text-left">Tanggal Pengajuan</th>
+                    <th class="px-6 py-3 text-left">Tanggal Izin</th>
+                    <th class="px-6 py-3 text-left">Alasan</th>
+                    <th class="px-6 py-3 text-left">Jam Mulai</th>
+                    <th class="px-6 py-3 text-left">Jam Selesai</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-left">Alasan Penolakan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($histori as $izin)
+                    <tr class="hover:bg-blue-50 border-b">
+                        <td class="px-6 py-4">{{ $izin->pegawai->name }}</td>
+                        <td class="px-6 py-4">{{ $izin->tanggal_pengajuan->format('d-m-Y') }}</td>
+                        <td class="px-6 py-4">{{ $izin->tanggal_izin->format('d-m-Y') }}</td>
+                        <td class="px-6 py-4">{{ $izin->alasan }}</td>
+                        <td class="px-6 py-4">{{ $izin->jam_mulai }}</td>
+                        <td class="px-6 py-4">{{ $izin->jam_selesai }}</td>
+                        <td class="px-6 py-4 capitalize font-semibold 
+                            @if($izin->status == 'disetujui') text-green-600 
+                            @elseif($izin->status == 'ditolak') text-red-600 
+                            @else text-yellow-500 @endif">
+                            {{ $izin->status }}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($izin->status == 'ditolak' && $izin->alasan_ditolak)
                                 {{ $izin->alasan_ditolak }}
                             @else
                                 -
                             @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada histori izin.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+            
 
-        <div class="mt-4 text-center">
-            <a href="{{ route('atasan.histori.export', request()->all()) }}" 
-               class="inline-block bg-red-600 hover:bg-red-700 transition text-white font-semibold py-1.5 px-4 text-sm rounded-lg shadow-md">
-                Export PDF
-            </a>
-        </div>
+        </table>
+        <div class="mb-6 flex justify-center">
+    {{ $histori->links('pagination::tailwind') }}
+</div>
+
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="{{ route('atasan.histori.export', request()->all()) }}" 
+           class="inline-block bg-red-600 hover:bg-red-700 transition text-white font-semibold py-1.5 px-4 text-sm rounded-lg shadow-md">
+            Export PDF
+        </a>
+    </div>
+@endif
+
 
      
     </div>

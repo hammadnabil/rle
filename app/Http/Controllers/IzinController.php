@@ -203,37 +203,46 @@ class IzinController extends Controller
 }
 
     public function historiIzin(Request $request)
-    {
-        $query = Izin::query();
+{
+    $query = Izin::query();
 
-        if ($request->filled('name')) {
-            $query->whereHas('pegawai', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->name . '%');
-            });
-        }
+   
+    if ($request->filled('name')) {
+        $query->whereHas('pegawai', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->name . '%');
+        });
+    }
 
-        $tahun = $request->tahun ?? now()->year;
+    
+    $tahun = $request->tahun ?? now()->year;
 
-        if ($request->filled('bulan')) {
-            $query->whereMonth('tanggal_izin', $request->bulan)
-                ->whereYear('tanggal_izin', $tahun);
-        }
+  
+    if ($request->filled('bulan')) {
+        $query->whereMonth('tanggal_izin', $request->bulan)
+              ->whereYear('tanggal_izin', $tahun);
 
+       
         if ($request->filled('minggu')) {
-            $bulan = $request->bulan ?? now()->month;
-            $startOfMonth = Carbon::create($tahun, $bulan, 1);
+            $startOfMonth = Carbon::create($tahun, $request->bulan, 1);
             $startOfWeek = $startOfMonth->copy()->addWeeks($request->minggu - 1)->startOfWeek(Carbon::MONDAY);
             $endOfWeek = $startOfWeek->copy()->endOfWeek(Carbon::SUNDAY);
             $query->whereBetween('tanggal_izin', [$startOfWeek, $endOfWeek]);
         }
-
-        $histori = $query->whereIn('status', ['disetujui', 'ditolak'])
-            ->orderBy('tanggal_izin', 'desc')
-            ->paginate(10)->withQueryString();
-
-
-        return view('atasan.histori', compact('histori'));
+    } else {
+       
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal_izin', $tahun);
+        }
     }
+
+  
+    $histori = $query->whereIn('status', ['disetujui', 'ditolak'])
+        ->orderBy('tanggal_izin', 'desc')
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('atasan.histori', compact('histori'));
+}
 
     public function loadPegawai(Request $request)
     {

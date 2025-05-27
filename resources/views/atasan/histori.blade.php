@@ -121,86 +121,135 @@
     </div>
 
     <script>
-        function fetchHistoriIzin() {
-            const name = $('#nama-pegawai').val();
-            const tahun = $('#tahun-select').val();
-            const bulan = $('#bulan-select').val();
-            const minggu = $('#minggu-select').val();
+$(document).ready(function() {
+   
+    const $namaPegawaiInput = $('#nama-pegawai');
+    const $listPegawai = $('#list-pegawai');
+    const $tahunSelect = $('#tahun-select');
+    const $bulanSelect = $('#bulan-select');
+    const $mingguSelect = $('#minggu-select');
+    
+ 
+    let debounceTimer;
+    const debounceDelay = 300;
+    
 
-            $.ajax({
-                url: "{{ route('atasan.histori') }}",
-                type: "GET",
-                data: { name, tahun, bulan, minggu },
-                success: function (response) {
-                    const html = $(response).find('#histori-izin-container').html();
-                    $('#histori-izin-container').html(html);
-                },
-                error: function () {
-                    $('#histori-izin-container').html('<div class="text-center text-red-600 py-10">Gagal memuat data.</div>');
-                }
-            });
+    $namaPegawaiInput.on('input', function() {
+        clearTimeout(debounceTimer);
+        const query = $(this).val().trim();
+        
+        if (query.length >= 2) {
+            debounceTimer = setTimeout(() => {
+                fetchPegawaiData(query);
+            }, debounceDelay);
+        } else {
+            $listPegawai.addClass('hidden').empty();
         }
-
-        $(document).ready(function () {
-            function updateFilterState() {
-                const tahun = $('#tahun-select').val();
-                const bulan = $('#bulan-select').val();
-                $('#bulan-select').prop('disabled', !tahun);
-                $('#minggu-select').prop('disabled', !(tahun && bulan));
-                if (!tahun) $('#bulan-select').val('');
-                if (!(tahun && bulan)) $('#minggu-select').val('');
-            }
-
-            updateFilterState();
-            $('#tahun-select, #bulan-select').on('change', updateFilterState);
-
-            $('#nama-pegawai').on('input', function () {
-                let query = $(this).val().trim();
-                if (query.length >= 2) {
-                    $.get("{{ route('cari.pegawai') }}", { q: query }, function (data) {
-                        let list = $('#list-pegawai').empty();
-                        if (data.length > 0) {
-                            data.forEach(pegawai => {
-                                $('<div>')
-                                    .addClass('px-4 py-2 hover:bg-blue-100 cursor-pointer text-sm')
-                                    .text(pegawai.text)
-                                    .data('name', pegawai.text)
-                                    .appendTo(list)
-                                    .on('click', function () {
-                                        $('#nama-pegawai').val($(this).data('name'));
-                                        list.addClass('hidden');
-                                        fetchHistoriIzin();
-                                    });
-                            });
-                        } else {
-                            $('<div>')
-                                .addClass('px-4 py-2 text-gray-400 text-sm')
-                                .text('Tidak ditemukan')
-                                .appendTo(list);
-                        }
-                        list.removeClass('hidden');
-                    });
-                } else {
-                    $('#list-pegawai').addClass('hidden').empty();
-                }
+    });
+    
+    function fetchPegawaiData(query) {
+        $.get("{{ route('cari.pegawai') }}", { q: query })
+            .done(function(data) {
+                renderPegawaiList(data);
+            })
+            .fail(function() {
+                showError("Gagal memuat data pegawai");
             });
-
-            $(document).on('click', function (e) {
-                if (!$(e.target).closest('#nama-pegawai, #list-pegawai').length) {
-                    $('#list-pegawai').addClass('hidden');
-                }
+    }
+    
+    function renderPegawaiList(data) {
+        $listPegawai.empty();
+        
+        if (data.length > 0) {
+            data.forEach(pegawai => {
+                $('<div>')
+                    .addClass('px-4 py-2 hover:bg-blue-100 cursor-pointer text-sm')
+                    .text(pegawai.text)
+                    .data('id', pegawai.id)
+                    .data('name', pegawai.text)
+                    .appendTo($listPegawai)
+                    .on('click', selectPegawai);
             });
+            $listPegawai.removeClass('hidden');
+        } else {
+            $('<div>')
+                .addClass('px-4 py-2 text-gray-400 text-sm')
+                .text('Tidak ditemukan')
+                .appendTo($listPegawai);
+            $listPegawai.removeClass('hidden');
+        }
+    }
+    
+    function selectPegawai() {
+        const $selected = $(this);
+        $namaPegawaiInput.val($selected.data('name'));
+        $listPegawai.addClass('hidden');
+        fetchHistoriIzin();
+    }
+    
+    function showError(message) {
+        $listPegawai.empty()
+            .append($('<div>').addClass('px-4 py-2 text-red-500 text-sm').text(message))
+            .removeClass('hidden');
+    }
+    
+  
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#nama-pegawai, #list-pegawai').length) {
+            $listPegawai.addClass('hidden');
+        }
+    });
+    
 
-            $('#nama-pegawai').on('focus', function () {
-                if ($('#list-pegawai').children().length > 0) {
-                    $('#list-pegawai').removeClass('hidden');
-                }
-            });
+    $namaPegawaiInput.on('focus', function() {
+        if ($listPegawai.children().length > 0) {
+            $listPegawai.removeClass('hidden');
+        }
+    });
+    
+  
+    function updateFilterState() {
+        const tahun = $tahunSelect.val();
+        const bulan = $bulanSelect.val();
+        $bulanSelect.prop('disabled', !tahun);
+        $mingguSelect.prop('disabled', !(tahun && bulan));
+        if (!tahun) $bulanSelect.val('');
+        if (!(tahun && bulan)) $mingguSelect.val('');
+    }
+    
+    updateFilterState();
+    $tahunSelect.on('change', updateFilterState);
+    $bulanSelect.on('change', updateFilterState);
+    
+  
+    $namaPegawaiInput.add($tahunSelect).add($bulanSelect).add($mingguSelect)
+        .on('change keyup', fetchHistoriIzin);
+});
 
-            $('#nama-pegawai, #tahun-select, #bulan-select, #minggu-select').on('change keyup', function () {
-                fetchHistoriIzin();
-            });
-        });
-    </script>
+function fetchHistoriIzin() {
+    const $container = $('#histori-izin-container');
+    $container.html('<div class="text-center py-10">Memuat data...</div>');
+    
+    const params = {
+        name: $('#nama-pegawai').val(),
+        tahun: $('#tahun-select').val(),
+        bulan: $('#bulan-select').val(),
+        minggu: $('#minggu-select').val()
+    };
+    
+    $.ajax({
+        url: "{{ route('atasan.histori') }}",
+        type: "GET",
+        data: params,
+        success: function(response) {
+            const html = $(response).find('#histori-izin-container').html();
+            $container.html(html);
+        },
+        error: function() {
+            $container.html('<div class="text-center text-red-600 py-10">Gagal memuat data.</div>');
+        }
+    });
+}
+</script>
 
     @endsection

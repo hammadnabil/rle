@@ -61,7 +61,7 @@
             const userTableBody = $('#userTableBody');
             const suggestionsContainer = $('#suggestions-container');
 
-            // Initialize autocomplete
+            
             namaPegawaiInput.autocomplete({
                 source: function(request, response) {
                     $.ajax({
@@ -84,11 +84,11 @@
                 minLength: 2,
                 select: function(event, ui) {
                     filterTable(ui.item.value);
-                    // Hide the suggestions after selection
+                 
                     suggestionsContainer.addClass('hidden');
                 },
                 open: function() {
-                    // Position the dropdown correctly
+            
                     suggestionsContainer.removeClass('hidden')
                         .position({
                             my: "left top",
@@ -101,13 +101,13 @@
                     suggestionsContainer.addClass('hidden');
                 }
             }).data("ui-autocomplete")._renderItem = function(ul, item) {
-                // Custom rendering of each item
+            
                 return $("<li>")
                     .append("<div class='px-4 py-2 hover:bg-blue-100 cursor-pointer'>" + item.label + "</div>")
                     .appendTo(ul);
             };
 
-            // Manual filtering function
+         
             function filterTable(searchTerm) {
                 const term = searchTerm.toLowerCase().trim();
 
@@ -130,7 +130,7 @@
                 });
             }
 
-            // Handle manual input
+ 
             namaPegawaiInput.on('input', function() {
                 const term = $(this).val();
                 if (term.length < 2) {
@@ -139,7 +139,7 @@
                 filterTable(term);
             });
 
-            // Handle escape key
+ 
             namaPegawaiInput.on('keyup', function(e) {
                 if (e.key === 'Escape') {
                     $(this).val('');
@@ -148,7 +148,6 @@
                 }
             });
 
-            // Hide suggestions when clicking outside
             $(document).on('click', function(e) {
                 if (!$(e.target).closest('#nama-pegawai, #suggestions-container').length) {
                     suggestionsContainer.addClass('hidden');

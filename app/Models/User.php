@@ -51,6 +51,13 @@ class User extends Authenticatable
         ];
     }
 
+     public function izin()
+{
+    return $this->hasMany(Izin::class, 'pegawai_id');
+}
+
+    
+
    
 
     

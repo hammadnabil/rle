@@ -132,7 +132,7 @@ class IzinController extends Controller
 
         return redirect()->route('atasan.pengajuan')->with(
             'success',
-            'Pengajuan berhasil diproses dan notifikasi terkirim via ' .
+            'Pengajuan izin sudah dikonfirmasi dan notifikasi terkirim via ' .
                 $this->getNotificationMethodText($notificationMethod)
         );
     }
@@ -202,11 +202,13 @@ class IzinController extends Controller
     }
 }
 
-    public function historiIzin(Request $request)
+ public function historiIzin(Request $request)
 {
-    $query = Izin::query();
+    $query = Izin::with('pegawai')
+        ->whereIn('status', ['disetujui', 'ditolak'])
+        ->orderBy('tanggal_izin', 'desc');
 
-   
+    
     if ($request->filled('name')) {
         $query->whereHas('pegawai', function ($q) use ($request) {
             $q->where('name', 'like', '%' . $request->name . '%');
@@ -214,36 +216,30 @@ class IzinController extends Controller
     }
 
     
-    $tahun = $request->tahun ?? now()->year;
+    if ($request->filled('tahun')) {
+        $query->whereYear('tanggal_izin', $request->tahun);
+    } else {
+    
+        $query->whereYear('tanggal_izin', now()->year);
+    }
 
-  
+    
     if ($request->filled('bulan')) {
-        $query->whereMonth('tanggal_izin', $request->bulan)
-              ->whereYear('tanggal_izin', $tahun);
+        $query->whereMonth('tanggal_izin', $request->bulan);
 
-       
+     
         if ($request->filled('minggu')) {
-            $startOfMonth = Carbon::create($tahun, $request->bulan, 1);
+            $startOfMonth = Carbon::create($request->tahun ?? now()->year, $request->bulan, 1);
             $startOfWeek = $startOfMonth->copy()->addWeeks($request->minggu - 1)->startOfWeek(Carbon::MONDAY);
             $endOfWeek = $startOfWeek->copy()->endOfWeek(Carbon::SUNDAY);
             $query->whereBetween('tanggal_izin', [$startOfWeek, $endOfWeek]);
         }
-    } else {
-       
-        if ($request->filled('tahun')) {
-            $query->whereYear('tanggal_izin', $tahun);
-        }
     }
 
-  
-    $histori = $query->whereIn('status', ['disetujui', 'ditolak'])
-        ->orderBy('tanggal_izin', 'desc')
-        ->paginate(10)
-        ->withQueryString();
+    $histori = $query->paginate(10)->withQueryString();
 
     return view('atasan.histori', compact('histori'));
 }
-
     public function loadPegawai(Request $request)
     {
         if ($request->has('q')) {

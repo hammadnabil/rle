@@ -26,6 +26,7 @@
         Route::get('/atasan/histori/export', [IzinController::class, 'exportPDF'])->name('atasan.histori.export');
         Route::get('/atasan/user', [AtasanController::class, 'listUser'])->name('atasan.user.index');
         Route::get('/atasan/profil', [AtasanController::class, 'profil'])->name('atasan.profil');
+        Route::get('/atasan/dashboard', [AtasanController::class, 'dashboard'])->name('atasan.dashboard');
 
         Route::get('/autocomplete', [AtasanController::class, 'autocomplete'])->name('atasan.autocomplete');
 
@@ -37,10 +38,12 @@
         Route::get('/pegawai/dashboard', function () {
             return view('pegawai.dashboard');
         })->name('pegawai.dashboard');
-        Route::get('/pegawai/izin', [IzinController::class, 'index'])->name('izin.index'); // ← tambahkan ini
+        Route::get('/pegawai/izin', [IzinController::class, 'index'])->name('izin.index'); 
         Route::post('/pegawai/izin', [IzinController::class, 'store'])->name('izin.store');
           Route::get('/pegawai/histori-izin', [IzinController::class, 'historiPegawai'])->name('pegawai.histori-izin');
           Route::get('/pegawai/profil', [PegawaiController::class, 'profil'])->name('pegawai.profil');
+          Route::get('/pegawai/dashboard', [PegawaiController::class, 'dashboard'])->name('pegawai.dashboard');
+
     });
 
 

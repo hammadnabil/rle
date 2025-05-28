@@ -148,7 +148,18 @@
                                             @php
                                                 $start = \Carbon\Carbon::parse($izin->jam_mulai);
                                                 $end = \Carbon\Carbon::parse($izin->jam_selesai);
-                                                echo $start->diffInHours($end) . ' jam';
+                                                 $diffInMinutes = $start->diffInMinutes($end);
+
+                                                        $hours = intdiv($diffInMinutes, 60);
+                                                        $minutes = $diffInMinutes % 60;
+
+                                                        if ($hours > 0 && $minutes > 0) {
+                                                            echo $hours . ' jam ' . $minutes . ' menit';
+                                                        } elseif ($hours > 0) {
+                                                            echo $hours . ' jam';
+                                                        } else {
+                                                            echo $minutes . ' menit';
+                                                        }
                                             @endphp
                                         </div>
                                     </td>

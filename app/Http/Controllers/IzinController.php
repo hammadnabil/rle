@@ -318,16 +318,16 @@ class IzinController extends Controller
     }
 
     public function historiPegawai()
-    {
-        $pegawai = Auth::user();
+{
+    $pegawai = Auth::user();
 
-        $histori = Izin::where('pegawai_id', $pegawai->id)
-            ->orderBy('tanggal_izin', 'desc')
-            ->get();
+    $histori = Izin::where('pegawai_id', $pegawai->id)
+        ->orderBy('tanggal_izin', 'desc')
+        ->paginate(10);  
 
-        return view('pegawai.histori-izin', [
-            'histori' => $histori,
-            'pegawai' => $pegawai
-        ]);
-    }
+    return view('pegawai.histori-izin', [
+        'histori' => $histori,
+        'pegawai' => $pegawai
+    ]);
+}
 }

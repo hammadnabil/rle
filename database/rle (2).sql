@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2025 at 04:51 AM
+-- Generation Time: May 28, 2025 at 05:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,8 +63,8 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3', 'i:1;', 1748251648),
-('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3:timer', 'i:1748251648;', 1748251648);
+('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3', 'i:1;', 1748403107),
+('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3:timer', 'i:1748403107;', 1748403107);
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,22 @@ INSERT INTO `izin` (`izin_id`, `pegawai_id`, `tanggal_pengajuan`, `tanggal_izin`
 (26, 5, '2025-05-25', '2025-05-25', 'test', 'ditolak', 'kelamaaan', NULL, '2025-05-25 03:18:38', '2025-05-25 03:19:38', '17:18:00', '18:18:00'),
 (27, 4, '2025-05-26', '2025-05-27', 'beli makan', 'disetujui', NULL, NULL, '2025-05-26 00:11:46', '2025-05-26 00:27:51', '14:11:00', '17:11:00'),
 (28, 7, '2025-05-26', '2025-05-26', 'daftar pns', 'disetujui', NULL, NULL, '2025-05-26 00:31:46', '2025-05-26 00:32:45', '14:31:00', '15:31:00'),
-(29, 4, '2025-05-26', '2025-05-26', 'gaskenn', 'disetujui', NULL, NULL, '2025-05-26 03:17:54', '2025-05-26 03:19:06', '17:17:00', '18:17:00');
+(29, 4, '2025-05-26', '2025-05-26', 'gaskenn', 'disetujui', NULL, NULL, '2025-05-26 03:17:54', '2025-05-26 03:19:06', '17:17:00', '18:17:00'),
+(30, 4, '2025-05-27', '2025-05-27', 'antar anak', 'disetujui', NULL, NULL, '2025-05-26 20:26:54', '2025-05-26 20:44:04', '10:26:00', '11:26:00'),
+(31, 10, '2025-05-27', '2025-05-27', 'ambil dana di atm', 'ditolak', 'kelamaan', NULL, '2025-05-26 20:34:30', '2025-05-26 20:37:03', '10:34:00', '11:34:00'),
+(32, 10, '2025-05-27', '2025-05-27', 'beli ATK', 'disetujui', NULL, NULL, '2025-05-26 20:47:04', '2025-05-26 20:49:03', '10:46:00', '11:46:00'),
+(33, 10, '2025-05-27', '2025-05-27', 'beli makan siang', 'ditolak', 'tidak diizinkan', NULL, '2025-05-26 20:53:16', '2025-05-26 21:32:42', '10:53:00', '11:53:00'),
+(34, 10, '2025-05-27', '2025-05-27', 'test', 'disetujui', NULL, NULL, '2025-05-26 21:33:46', '2025-05-26 21:37:45', '00:33:00', '01:33:00'),
+(35, 10, '2025-05-27', '2025-05-28', 'sakit', 'ditolak', 'bohong', NULL, '2025-05-26 21:37:09', '2025-05-26 21:37:57', '11:36:00', '23:36:00'),
+(36, 10, '2025-05-27', '2025-05-27', 'Membeli obat ke apotek', 'disetujui', NULL, NULL, '2025-05-26 23:34:47', '2025-05-27 00:33:30', '13:32:00', '14:32:00'),
+(37, 10, '2025-05-27', '2025-05-27', 'PPDB', 'disetujui', NULL, NULL, '2025-05-27 00:26:55', '2025-05-27 00:29:00', '14:26:00', '15:26:00'),
+(38, 10, '2025-05-28', '2025-05-28', 'Membeli obat ke Apotek', 'disetujui', NULL, NULL, '2025-05-27 18:04:23', '2025-05-27 18:15:07', '08:04:00', '09:04:00'),
+(39, 10, '2025-05-28', '2025-05-28', 'p', 'disetujui', NULL, NULL, '2025-05-27 19:24:03', '2025-05-27 20:44:01', '09:23:00', '09:25:00'),
+(40, 10, '2025-05-28', '2025-05-28', 'test', 'disetujui', NULL, NULL, '2025-05-27 19:31:12', '2025-05-27 20:41:32', '09:30:00', '12:30:00'),
+(41, 10, '2025-05-28', '2025-05-29', 'test', 'disetujui', NULL, NULL, '2025-05-27 19:31:32', '2025-05-27 20:33:52', '09:33:00', '10:31:00'),
+(42, 4, '2025-05-28', '2025-05-28', 'test', 'disetujui', NULL, NULL, '2025-05-27 20:32:55', '2025-05-27 20:33:27', '10:32:00', '11:32:00'),
+(43, 4, '2025-05-28', '2025-05-28', 'test', 'disetujui', NULL, NULL, '2025-05-27 20:50:00', '2025-05-27 20:51:29', '10:49:00', '11:49:00'),
+(44, 4, '2025-05-28', '2025-05-28', 'test', 'disetujui', NULL, NULL, '2025-05-27 20:50:02', '2025-05-27 20:55:08', '10:49:00', '11:49:00');
 
 -- --------------------------------------------------------
 
@@ -156,7 +171,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2025_05_06_035519_add_jabatan_to_users_table', 10),
 (12, '2025_05_15_033401_add_jam_mulai_dan_selesai_to_izin_table', 11),
 (13, '2025_05_21_062749_add_biodata_fields_to_users_table', 12),
-(14, '2025_05_22_044925_add_alasan_ditolak_to_izin_table', 13);
+(14, '2025_05_22_044925_add_alasan_ditolak_to_izin_table', 13),
+(15, '2025_05_28_032512_add_fonnte_token_to_users_table', 14);
 
 -- --------------------------------------------------------
 
@@ -214,6 +230,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `jabatan` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
+  `fonnte_token` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -222,13 +239,18 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `no_wa`, `umur`, `tanggal_bergabung`, `gender`, `password`, `jabatan`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@gmail.com', NULL, NULL, NULL, NULL, '$2y$12$m9NgBStqvnExHkVNmaVw0.9eGPjkwKYMOIVDNw1gIHmXadMWqai0m', 'pegawai', NULL, NULL, '2025-04-30 21:09:06'),
-(2, 'kunedi', 'kunedi@gmail.com', '6285172142148', NULL, NULL, 'L', '$2y$12$fV/LIN4q8Q6BXxJp7sZyd.BKX.fWLLZbn0pNtK476qVJxwK.kkFru', 'atasan', NULL, '2025-05-05 21:20:29', '2025-05-23 19:05:38'),
-(4, 'Hammad Nabil Khairy', 'nabil@gmail.com', '6285172142148', NULL, NULL, 'L', '$2y$12$x91g6SMp4NaFoDNQMNNQHOtV.Fyd8r3Z6usej.WLaVC4MSrVsHUT.', 'pegawai', NULL, '2025-05-14 18:33:26', '2025-05-26 02:13:46'),
-(5, 'daffa', 'daffa@gmail.com', '085172142148', NULL, NULL, 'L', '$2y$12$I6TTW7xXBENvjQZTUoqK.eBWraBKwzmHkgR/VneOHLASaK/JhUkQ6', 'pegawai', NULL, '2025-05-18 20:57:10', '2025-05-25 01:02:39'),
-(7, 'Ahmad Istakim', 'istakim@gmail.com', '6281326634155', NULL, NULL, 'L', '$2y$12$e6.SU75BSjd7xSJniy03puca6dS6vMtR5s.kUJROSD25QWDuRar36', 'pegawai', NULL, '2025-05-19 21:55:53', '2025-05-26 00:30:07'),
-(9, 'Sunarti', 'sunarti@gmail.com', NULL, 30, '2025-05-26', 'P', '$2y$12$KKN/iAesDQlPSHHycisOGO4kpe1.AA7scPaEtYWLdutjTA6JEeQPK', 'Tata Usaha', NULL, '2025-05-26 02:27:31', '2025-05-26 02:27:31');
+INSERT INTO `users` (`id`, `name`, `email`, `no_wa`, `umur`, `tanggal_bergabung`, `gender`, `password`, `jabatan`, `remember_token`, `fonnte_token`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin@gmail.com', NULL, NULL, NULL, NULL, '$2y$12$m9NgBStqvnExHkVNmaVw0.9eGPjkwKYMOIVDNw1gIHmXadMWqai0m', 'pegawai', NULL, NULL, NULL, '2025-04-30 21:09:06'),
+(2, 'kunedi', 'kunedi@gmail.com', '6285172142148', NULL, NULL, 'L', '$2y$12$fV/LIN4q8Q6BXxJp7sZyd.BKX.fWLLZbn0pNtK476qVJxwK.kkFru', 'atasan', NULL, NULL, '2025-05-05 21:20:29', '2025-05-23 19:05:38'),
+(4, 'Hammad Nabil Khairy', 'nabil@gmail.com', '6285172142148', NULL, NULL, 'L', '$2y$12$x91g6SMp4NaFoDNQMNNQHOtV.Fyd8r3Z6usej.WLaVC4MSrVsHUT.', 'pegawai', NULL, NULL, '2025-05-14 18:33:26', '2025-05-26 02:13:46'),
+(5, 'daffa', 'daffa@gmail.com', '085172142148', NULL, NULL, 'L', '$2y$12$I6TTW7xXBENvjQZTUoqK.eBWraBKwzmHkgR/VneOHLASaK/JhUkQ6', 'pegawai', NULL, NULL, '2025-05-18 20:57:10', '2025-05-25 01:02:39'),
+(7, 'Ahmad Istakim', 'istakim@gmail.com', '6281326634155', NULL, NULL, 'L', '$2y$12$e6.SU75BSjd7xSJniy03puca6dS6vMtR5s.kUJROSD25QWDuRar36', 'pegawai', NULL, NULL, '2025-05-19 21:55:53', '2025-05-26 00:30:07'),
+(9, 'Sunarti', 'sunarti@gmail.com', NULL, 30, '2025-05-26', 'P', '$2y$12$KKN/iAesDQlPSHHycisOGO4kpe1.AA7scPaEtYWLdutjTA6JEeQPK', 'Tata Usaha', NULL, 'XMadsHrbVhi2bSKcLHE4', '2025-05-26 02:27:31', '2025-05-26 02:27:31'),
+(10, 'Ahmad Zaky', 'zaky@gmail.com', '6287893035313', 18, '2025-05-27', 'L', '$2y$12$Q1iVXN3u9/KlhnoD8lJBcOGRxjHaVNpjScZB6hnO137z6HTHwAK2O', 'pegawai', NULL, NULL, '2025-05-26 20:30:17', '2025-05-26 20:30:17'),
+(11, 'Dhiksa Raja Nararya Hakim', 'dhiksa@gmail.com', '628111273212', 18, '2025-05-27', 'L', '$2y$12$Z.auaUzC8MW/sQet6DHHhuUdYGGNQD//W13iafGOjPWCVLOD2WO8G', 'pegawai', NULL, NULL, '2025-05-26 23:01:10', '2025-05-26 23:01:10'),
+(12, 'M Atha Ammar Nur', 'atha@gmail.com', '6281286465364', 18, '2025-05-27', 'L', '$2y$12$frwT91MRb.57yuRMOeap5uBfF8lmt0MkCL0XtY84RgwVUk6I8SC8.', 'pegawai', NULL, NULL, '2025-05-26 23:02:04', '2025-05-26 23:02:04'),
+(13, 'Muhammad Ruhiyat', 'memet@gmail.com', '628388017459', 17, '2025-05-27', 'L', '$2y$12$c7CjwhoWpXfxfiFBWXyIx.eRf/wAdQkQ2M2nmSn1WEiAop6vUBR3K', 'pegawai', NULL, NULL, '2025-05-26 23:03:12', '2025-05-26 23:03:12'),
+(14, 'Raihan Athailah Wahyudi', 'wahyu@gmail.com', '6281212212642', 18, '2025-05-27', 'L', '$2y$12$OPnwTlydvmhFEmnMAORJsuM.pD/UnUQTJJym8iGzsb46erIzCqPi6', 'pegawai', NULL, NULL, '2025-05-26 23:04:28', '2025-05-26 23:04:28');
 
 --
 -- Indexes for dumped tables
@@ -301,13 +323,13 @@ ALTER TABLE `atasan`
 -- AUTO_INCREMENT for table `izin`
 --
 ALTER TABLE `izin`
-  MODIFY `izin_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `izin_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `notifikasi`
@@ -325,7 +347,7 @@ ALTER TABLE `pegawai`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

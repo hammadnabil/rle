@@ -13,7 +13,6 @@
 
             <form method="POST" action="{{ route('login') }}" class="space-y-4 sm:space-y-5">
                 @csrf
-                @method('POST')
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" name="email" required

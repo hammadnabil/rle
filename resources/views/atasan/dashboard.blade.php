@@ -37,7 +37,7 @@
             <div class="bg-white rounded-lg shadow p-6 transition hover:shadow-lg hover:transform hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-blue-100 text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
+                        <svg xmlns="https://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -54,7 +54,7 @@
             <div class="bg-white rounded-lg shadow p-6 transition hover:shadow-lg hover:transform hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-green-100 text-green-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
+                        <svg xmlns="https://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5 13l4 4L19 7" />
@@ -74,7 +74,7 @@
             <div class="bg-white rounded-lg shadow p-6 transition hover:shadow-lg hover:transform hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-red-100 text-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
+                        <svg xmlns="https://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12" />
@@ -119,7 +119,7 @@
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="httpss://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const noDataPlugin = {
         id: 'noData',

@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('pegawai.histori-izin') }}" class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">Histori Izin</a>
+                    <a href="{{ route('pegawai.histori-izin') }}" class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">Riwayat Perizinan</a>
                 </li>
                 <li>
                     <a href="{{ route('pegawai.profil') }}" class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">Profil</a>
@@ -44,7 +44,7 @@
                         @csrf
                         <button type="submit"
                                 class="w-full text-left px-6 py-3 hover:bg-red-100 text-red-600 font-medium">
-                            Logout
+                            Keluar
                         </button>
                     </form>
                 </li>

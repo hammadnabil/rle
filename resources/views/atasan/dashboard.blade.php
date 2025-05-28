@@ -6,7 +6,7 @@
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div class="bg-white rounded-lg shadow p-6 transition hover:shadow-xl flex-1">
-                <h1 class="text-2xl font-semibold text-gray-800 mb-2">Dashboard Tata Usaha</h1>
+                <h1 class="text-2xl font-semibold text-gray-800 mb-2">Dashboard </h1>
                 <p class="text-gray-600">Selamat datang, {{ Auth::user()->name }}!</p>
             </div>
 

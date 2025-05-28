@@ -43,7 +43,7 @@
                 <li>
                     <a href="{{ route('atasan.histori') }}"
                        class="block px-6 py-3 hover:bg-blue-100 text-gray-700 font-medium">
-                        Histori Izin
+                        Riwayat Perizinan
                     </a>
                 </li>
                 <li>
@@ -60,7 +60,7 @@
                         @csrf
                         <button type="submit"
                                 class="w-full text-left px-6 py-3 hover:bg-red-100 text-red-600 font-medium">
-                            Logout
+                            Keluar
                         </button>
                     </form>
                 </li>

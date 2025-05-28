@@ -1,7 +1,8 @@
 <?php
 
-
 namespace App\Services;
+
+use App\Models\User;
 
 class FonnteService
 {
@@ -10,14 +11,20 @@ class FonnteService
 
     public function __construct()
     {
-        $this->apiToken = env('FONNTE_API_TOKEN', 'XMadsHrbVhi2bSKcLHE4');
+       
+        $this->apiToken = User::where('jabatan', 'Tata Usaha')
+                            ->whereNotNull('fonnte_token')
+                            ->value('fonnte_token');
+        
+        if (empty($this->apiToken)) {
+            throw new \Exception("Tidak ada token Fonnte yang tersedia untuk Tata Usaha");
+        }
     }
 
     public function sendMessage(array $parameters)
     {
         $curl = curl_init();
 
-     
         if (isset($parameters['file'])) { 
             $parameters['file'] = new \CURLFile($parameters['file']);
         }
@@ -45,6 +52,12 @@ class FonnteService
             throw new \Exception("cURL Error: " . $error);
         }
 
-        return json_decode($response, true);
+        $decodedResponse = json_decode($response, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Invalid JSON response: " . $response);
+        }
+
+        return $decodedResponse;
     }
 }

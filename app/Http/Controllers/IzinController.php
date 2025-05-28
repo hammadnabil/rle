@@ -18,55 +18,55 @@ use Illuminate\Support\Facades\Log;
 class IzinController extends Controller
 {
 
-   public function index()
-{
-    $user = Auth::user();
+    public function index()
+    {
+        $user = Auth::user();
 
-    if (!$user || $user->jabatan === 'Tata Usaha') {
-        abort(403, 'Akses hanya untuk pegawai.');
+        if (!$user || $user->jabatan === 'Tata Usaha') {
+            abort(403, 'Akses hanya untuk pegawai.');
+        }
+
+        return view('pegawai.izin');
     }
-
-    return view('pegawai.izin');
-}
 
 
 
     public function store(Request $request)
-{
-    $pegawaiId = Auth::id();
-    $user = Auth::user();
+    {
+        $pegawaiId = Auth::id();
+        $user = Auth::user();
 
-  
-    if (!$pegawaiId || $user->jabatan === 'Tata Usaha') {
-        return redirect()->route('login')->with('error', 'Tata usaha tidak diperbolehkan mengajukan izin.');
+
+        if (!$pegawaiId || $user->jabatan === 'Tata Usaha') {
+            return redirect()->route('login')->with('error', 'Tata usaha tidak diperbolehkan mengajukan izin.');
+        }
+
+        $request->validate([
+            'tanggal_izin' => 'required|date|after_or_equal:today',
+            'alasan' => 'required|string|max:255',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+        ]);
+
+        Izin::create([
+            'pegawai_id' => $pegawaiId,
+            'tanggal_pengajuan' => now(),
+            'tanggal_izin' => $request->tanggal_izin,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+            'alasan' => $request->alasan,
+            'status' => 'Menunggu',
+        ]);
+
+        return redirect()->route('izin.index')->with('success', 'Pengajuan izin berhasil dikirim.');
     }
-
-    $request->validate([
-        'tanggal_izin' => 'required|date|after_or_equal:today',
-        'alasan' => 'required|string|max:255',
-        'jam_mulai' => 'required|date_format:H:i',
-        'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
-    ]);
-
-    Izin::create([
-        'pegawai_id' => $pegawaiId,
-        'tanggal_pengajuan' => now(),
-        'tanggal_izin' => $request->tanggal_izin,
-        'jam_mulai' => $request->jam_mulai,
-        'jam_selesai' => $request->jam_selesai,
-        'alasan' => $request->alasan,
-        'status' => 'Menunggu',
-    ]);
-
-    return redirect()->route('izin.index')->with('success', 'Pengajuan izin berhasil dikirim.');
-}
 
 
 
     public function testSendWhatsAppMessage($phone, $message)
-{
-    return $this->sendWhatsAppMessage($phone, $message);
-}
+    {
+        return $this->sendWhatsAppMessage($phone, $message);
+    }
 
     public function pengajuanIzin()
     {
@@ -74,71 +74,97 @@ class IzinController extends Controller
         return view('atasan.pengajuan', compact('pengajuan'));
     }
 
-   public function setujuiTolak(Request $request, $id)
-{
-    $request->validate([
-        'status' => 'required|in:disetujui,ditolak',
-        'alasan_ditolak' => 'required_if:status,ditolak|max:255',
-        'notifikasi' => 'required|array',
-        'notifikasi.*' => 'in:email,wa,both'
-    ]);
+    public function setujuiTolak(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:disetujui,ditolak',
+            'alasan_ditolak' => 'required_if:status,ditolak|max:255',
+            'notifikasi' => 'required|array',
+            'notifikasi.*' => 'in:email,wa,both'
+        ]);
 
-    $izin = Izin::with('pegawai')->findOrFail($id);
-    $izin->status = $request->status;
-    $izin->alasan_ditolak = $request->status === 'ditolak' ? $request->alasan_ditolak : null;
+        $izin = Izin::with('pegawai')->findOrFail($id);
+        $izin->status = $request->status;
+        $izin->alasan_ditolak = $request->status === 'ditolak' ? $request->alasan_ditolak : null;
 
-    if ($izin->save()) {
-        $notificationMethod = $request->notifikasi[$id] ?? 'email';
-        $pegawai = $izin->pegawai;
+        if ($izin->save()) {
+            $notificationMethod = $request->notifikasi[$id] ?? 'email';
+            $pegawai = $izin->pegawai;
 
-       
-        $statusText = $request->status === 'disetujui' ? 'DISETUJUI' : 'DITOLAK';
-        $messageContent = "Halo {name},\n\nPengajuan izin Anda pada tanggal {$izin->tanggal_izin->format('d-m-Y')} " .
-            "jam {$izin->jam_mulai} - {$izin->jam_selesai} dengan alasan  *{$izin->alasan}* telah {$statusText}.\n";
+        
+            $statusText = $request->status === 'disetujui' ? 'DISETUJUI' : 'DITOLAK';
+            $messageContent = "Halo {$pegawai->name},\n\nPengajuan izin Anda pada tanggal {$izin->tanggal_izin->format('d-m-Y')} " .
+                "jam {$izin->jam_mulai} - {$izin->jam_selesai} dengan alasan *{$izin->alasan}* telah {$statusText}.\n";
 
-        if ($request->status === 'ditolak') {
-            $messageContent .= "Alasan Penolakan: *{$request->alasan_ditolak}*\n";
-        }
-        $messageContent .= "\nTerima kasih.";
+            if ($request->status === 'ditolak') {
+                $messageContent .= "Alasan Penolakan: *{$request->alasan_ditolak}*\n";
+            }
+            $messageContent .= "\nTerima kasih.";
 
-     
-        $target = $pegawai->no_wa . '|' . $pegawai->name . '|Employee';
+         
+            $notificationSent = false;
+            $notificationMethodText = '';
 
-      
-        switch ($notificationMethod) {
-            case 'email':
-                Mail::to($pegawai->email)->send(new StatusIzinMail($izin));
-                break;
+            try {
+                switch ($notificationMethod) {
+                    case 'email':
+                        Mail::to($pegawai->email)->send(new StatusIzinMail($izin));
+                        $notificationMethodText = 'email';
+                        $notificationSent = true;
+                        break;
 
-            case 'wa':
-                if (!empty($pegawai->no_wa)) {
-                    $this->sendWhatsAppMessage($target, $messageContent, [
-                        'delay' => '2', 
-                        'typing' => true 
-                    ]);
+                    case 'wa':
+                        if (!empty($pegawai->no_wa)) {
+                            (new FonnteService())->sendMessage([
+                                'target' => $pegawai->no_wa,
+                                'message' => $messageContent,
+                                'countryCode' => '62',
+                            ]);
+                            $notificationMethodText = 'WhatsApp';
+                            $notificationSent = true;
+                        }
+                        break;
+
+                    case 'both':
+                        Mail::to($pegawai->email)->send(new StatusIzinMail($izin));
+
+                        if (!empty($pegawai->no_wa)) {
+                            (new FonnteService())->sendMessage([
+                                'target' => $pegawai->no_wa,
+                                'message' => $messageContent,
+                                'countryCode' => '62',
+                                ...(isset($request->file) ? ['file' => $request->file] : [])
+                            ]);
+                            $notificationMethodText = 'email dan WhatsApp';
+                            $notificationSent = true;
+                        } else {
+                            $notificationMethodText = 'email';
+                        }
+                        break;
                 }
-                break;
 
-            case 'both':
-                Mail::to($pegawai->email)->send(new StatusIzinMail($izin));
-                if (!empty($pegawai->no_wa)) {
-                    $this->sendWhatsAppMessage($target, $messageContent, [
-                        'url' => asset('images/logo.png'), 
-                        'filename' => 'company_logo.png'
-                    ]);
+                if ($notificationSent) {
+                    return redirect()->route('atasan.pengajuan')->with(
+                        'success',
+                        'Pengajuan izin sudah dikonfirmasi dan notifikasi terkirim via ' . $notificationMethodText
+                    );
+                } else {
+                    return redirect()->route('atasan.pengajuan')->with(
+                        'warning',
+                        'Pengajuan izin sudah dikonfirmasi tetapi notifikasi gagal terkirim (token/method tidak valid)'
+                    );
                 }
-                break;
+            } catch (\Exception $e) {
+                Log::error('Notification failed: ' . $e->getMessage());
+                return back()->with(
+                    'warning',
+                    'Pengajuan izin sudah dikonfirmasi tetapi notifikasi gagal terkirim: ' . $e->getMessage()
+                );
+            }
         }
 
-        return redirect()->route('atasan.pengajuan')->with(
-            'success',
-            'Pengajuan izin sudah dikonfirmasi dan notifikasi terkirim via ' .
-                $this->getNotificationMethodText($notificationMethod)
-        );
+        return back()->with('error', 'Gagal memproses pengajuan izin');
     }
-
-    return back()->with('error', 'Gagal memproses pengajuan izin');
-}
 
     private function getNotificationMethodText($method)
     {
@@ -166,80 +192,80 @@ class IzinController extends Controller
         return $phone;
     }
 
-     private function sendWhatsAppMessage($phone, $message, $options = [])
-{
-    $fonnteService = new FonnteService();
-    
-    $params = [
-        'target' => $phone,
-        'message' => $message,
-        'countryCode' => '62',
-    ];
+    private function sendWhatsAppMessage($phone, $message, $options = [])
+    {
+        $fonnteService = new FonnteService();
 
-    $params = array_merge($params, $options);
-
-    try {
-        $response = $fonnteService->sendMessage($params);
-        
-        Log::info('WhatsApp API Response:', [
-            'phone' => $phone,
+        $params = [
+            'target' => $phone,
             'message' => $message,
-            'response' => $response
-        ]);
-
-        return $response;
-    } catch (\Exception $e) {
-        Log::error('WhatsApp API Error:', [
-            'phone' => $phone,
-            'message' => $message,
-            'error' => $e->getMessage()
-        ]);
-        
-        return [
-            'status' => false,
-            'message' => $e->getMessage()
+            'countryCode' => '62',
         ];
-    }
-}
 
- public function historiIzin(Request $request)
-{
-    $query = Izin::with('pegawai')
-        ->whereIn('status', ['disetujui', 'ditolak'])
-        ->orderBy('tanggal_izin', 'desc');
+        $params = array_merge($params, $options);
 
-    
-    if ($request->filled('name')) {
-        $query->whereHas('pegawai', function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->name . '%');
-        });
-    }
+        try {
+            $response = $fonnteService->sendMessage($params);
 
-    
-    if ($request->filled('tahun')) {
-        $query->whereYear('tanggal_izin', $request->tahun);
-    } else {
-    
-        $query->whereYear('tanggal_izin', now()->year);
-    }
+            Log::info('WhatsApp API Response:', [
+                'phone' => $phone,
+                'message' => $message,
+                'response' => $response
+            ]);
 
-    
-    if ($request->filled('bulan')) {
-        $query->whereMonth('tanggal_izin', $request->bulan);
+            return $response;
+        } catch (\Exception $e) {
+            Log::error('WhatsApp API Error:', [
+                'phone' => $phone,
+                'message' => $message,
+                'error' => $e->getMessage()
+            ]);
 
-     
-        if ($request->filled('minggu')) {
-            $startOfMonth = Carbon::create($request->tahun ?? now()->year, $request->bulan, 1);
-            $startOfWeek = $startOfMonth->copy()->addWeeks($request->minggu - 1)->startOfWeek(Carbon::MONDAY);
-            $endOfWeek = $startOfWeek->copy()->endOfWeek(Carbon::SUNDAY);
-            $query->whereBetween('tanggal_izin', [$startOfWeek, $endOfWeek]);
+            return [
+                'status' => false,
+                'message' => $e->getMessage()
+            ];
         }
     }
 
-    $histori = $query->paginate(10)->withQueryString();
+    public function historiIzin(Request $request)
+    {
+        $query = Izin::with('pegawai')
+            ->whereIn('status', ['disetujui', 'ditolak'])
+            ->orderBy('tanggal_izin', 'desc');
 
-    return view('atasan.histori', compact('histori'));
-}
+
+        if ($request->filled('name')) {
+            $query->whereHas('pegawai', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->name . '%');
+            });
+        }
+
+
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal_izin', $request->tahun);
+        } else {
+
+            $query->whereYear('tanggal_izin', now()->year);
+        }
+
+
+        if ($request->filled('bulan')) {
+            $query->whereMonth('tanggal_izin', $request->bulan);
+
+
+            if ($request->filled('minggu')) {
+                $startOfMonth = Carbon::create($request->tahun ?? now()->year, $request->bulan, 1);
+                $startOfWeek = $startOfMonth->copy()->addWeeks($request->minggu - 1)->startOfWeek(Carbon::MONDAY);
+                $endOfWeek = $startOfWeek->copy()->endOfWeek(Carbon::SUNDAY);
+                $query->whereBetween('tanggal_izin', [$startOfWeek, $endOfWeek]);
+            }
+        }
+
+        $histori = $query->paginate(10)->withQueryString();
+
+        return view('atasan.histori', compact('histori'));
+    }
     public function loadPegawai(Request $request)
     {
         if ($request->has('q')) {
@@ -318,16 +344,16 @@ class IzinController extends Controller
     }
 
     public function historiPegawai()
-{
-    $pegawai = Auth::user();
+    {
+        $pegawai = Auth::user();
 
-    $histori = Izin::where('pegawai_id', $pegawai->id)
-        ->orderBy('tanggal_izin', 'desc')
-        ->paginate(10);  
+        $histori = Izin::where('pegawai_id', $pegawai->id)
+            ->orderBy('tanggal_izin', 'desc')
+            ->paginate(10);
 
-    return view('pegawai.histori-izin', [
-        'histori' => $histori,
-        'pegawai' => $pegawai
-    ]);
-}
+        return view('pegawai.histori-izin', [
+            'histori' => $histori,
+            'pegawai' => $pegawai
+        ]);
+    }
 }

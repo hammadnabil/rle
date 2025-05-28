@@ -70,6 +70,12 @@
                 'P' => 'Perempuan',
             ])
             ->required(),
+
+             TextInput::make('fonnte_token')
+            ->maxLength(255),
+
+
+            
     ]);
 }
 
